@@ -5,10 +5,7 @@ import unittest
 
 import psutil
 from appium import webdriver
-from selenium.webdriver.common.actions.action_builder import ActionBuilder
 from appium.options.android import UiAutomator2Options
-from appium.webdriver.common.appiumby import AppiumBy
-import base64
 import os
 import cv2
 
@@ -63,7 +60,7 @@ class TestAppium(unittest.TestCase):
         cv2.imwrite(result_image_path, screenshot)
 
         print(f'Результат сохранен в {result_image_path}')
-        if max_val < 6:
+        if max_val < 0.6:
             print(f'Уровень совпадения: {max_val}')
             raise Exception(f'Кнопка {button_filename} не найдена')
 
@@ -72,9 +69,19 @@ class TestAppium(unittest.TestCase):
         self.driver.tap([(center_x, center_y)])
         print(f'Кнопка {button_filename} найдена и нажата по координатам: {center_x}, {center_y}')
 
-    def test_find_and_tap(self) -> None:
+    def test_launch_app(self) -> None:
         time.sleep(10)
         self.find_and_tap('apply_button.PNG')
+        time.sleep(10)
+        self.find_and_tap("skip_button.PNG")
+        time.sleep(10)
+        self.find_and_tap('choose_progress.PNG')
+        if self.driver.is_keyboard_shown():
+            self.driver.press_keycode(8)
+            self.driver.press_keycode(9)
+            self.driver.press_keycode(10)
+            self.driver.press_keycode(11)
+            self.driver.press_keycode(12)
 
 
 if __name__ == '__main__':

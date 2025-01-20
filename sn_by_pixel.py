@@ -1,4 +1,4 @@
-# простой appium тест с запуском SN на 1422 и прохождением начального тутора
+# простой appium тест с установкой, запуском SN на 1422 и прохождением начального тутора
 import time
 import unittest
 from appium import webdriver
@@ -11,7 +11,9 @@ capabilities = dict(
     language='en',
     locale='US',
     appPackage='com.mytona.seekersnotes.android',
-    appActivity='.GameStartActivity'
+    appActivity='.GameStartActivity',
+    app='C:/Users/dvd10/Downloads/appium_build.apk',  # path to your apk
+    fullReset=True
 )
 
 appium_server_url = 'http://localhost:4723'
