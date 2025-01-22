@@ -35,7 +35,7 @@ class TestAppium(unittest.TestCase):
         if cls.driver:
             cls.driver.quit()
 
-    def test_launch_app(self) -> None:
+    def test_launch_and_tutor(self) -> None:
         time.sleep(10)
         # нажатие ПРИНЯТЬ
         self.driver.tap([(1200, 1000)])
@@ -58,8 +58,6 @@ class TestAppium(unittest.TestCase):
         self.driver.tap([(1200, 800)])
         self.driver.tap([(1200, 800)])
         time.sleep(5)
-
-    def test_pass_tutor(self) -> None:
         # первое окно с хелен
         self.driver.tap([(1600, 690)])
         time.sleep(3)
