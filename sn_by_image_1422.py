@@ -1,5 +1,5 @@
-# IN PROGRESS
-
+# простой appium тест с установкой, запуском SN на 1422 и прохождением начального тутора
+# тапы производятся через сравнение изображений
 import time
 import unittest
 from appium import webdriver
@@ -11,12 +11,11 @@ capabilities = dict(
     platformName='Android',
     automationName='uiautomator2',
     deviceName='Android',
-    language='en',
-    locale='US',
     appPackage='com.mytona.seekersnotes.android',
     appActivity='.GameStartActivity',
     newCommandTimeout=300,
     app='C:/Users/dvd10/Downloads/appium_build.apk',  # path to your apk
+    androidInstallTimeout=180000,
     fullReset=True
 )
 
@@ -72,11 +71,11 @@ class TestAppium(unittest.TestCase):
 
     def test_launch_and_tutor(self) -> None:
         time.sleep(10)
-        self.find_and_tap('templates/launch/apply_button.PNG')
+        self.find_and_tap('templates/sn/launch/apply.PNG')
         time.sleep(10)
-        self.find_and_tap("templates/launch/skip_button.PNG")
+        self.find_and_tap("templates/sn/launch/skip.PNG")
         time.sleep(10)
-        self.find_and_tap('templates/launch/choose_progress.PNG')
+        self.find_and_tap('templates/sn/launch/choose_progress.PNG')
         time.sleep(1)
         if self.driver.is_keyboard_shown():
             self.driver.press_keycode(8)
@@ -84,20 +83,20 @@ class TestAppium(unittest.TestCase):
             self.driver.press_keycode(10)
             self.driver.press_keycode(11)
             self.driver.press_keycode(12)
-        self.find_and_tap('templates/launch/apply_12345.PNG')
+        self.find_and_tap('templates/sn/launch/confirm_12345.PNG')
         time.sleep(5)
-        self.find_and_tap('templates/launch/play_button.PNG')
+        self.find_and_tap('templates/sn/launch/play.PNG')
         time.sleep(2)
         self.driver.tap([(1200, 800)])
         self.driver.tap([(1200, 800)])
         time.sleep(5)
-        self.find_and_tap('templates/first_tutor/helen_tutor_1.PNG')
+        self.find_and_tap('templates/sn/first_tutor/helen_1.PNG')
         time.sleep(3)
-        self.find_and_tap('templates/first_tutor/helen_tutor_2.PNG')
+        self.find_and_tap('templates/sn/first_tutor/helen_2.PNG')
         time.sleep(3)
-        self.find_and_tap('templates/first_tutor/tutor_ho_1.PNG')
+        self.find_and_tap('templates/sn/first_tutor/item_1.PNG')
         time.sleep(3)
-        self.find_and_tap('templates/first_tutor/tutor_hint.PNG')
+        self.find_and_tap('templates/sn/first_tutor/hint.PNG')
         time.sleep(3)
         self.driver.execute_script('mobile: pinchOpenGesture', {
             'left': 300,
@@ -114,7 +113,7 @@ class TestAppium(unittest.TestCase):
             'height': 300 + 200,
             'percent': 1
         })
-        self.find_and_tap('templates/first_tutor/tutor_ho_2.PNG')
+        self.find_and_tap('templates/sn/first_tutor/item_2.PNG')
         time.sleep(3)
         self.driver.execute_script('mobile: pinchOpenGesture', {
             'left': 300,
@@ -134,9 +133,9 @@ class TestAppium(unittest.TestCase):
         time.sleep(2)
         self.driver.tap([(0, 0)])
         time.sleep(2)
-        self.find_and_tap('templates/first_tutor/tutor_ho_3.PNG')
+        self.find_and_tap('templates/sn/first_tutor/item_3.PNG')
         time.sleep(2)
-        self.find_and_tap('templates/first_tutor/ok_button.PNG')
+        self.find_and_tap('templates/sn/first_tutor/ok.PNG')
         time.sleep(2)
 
 

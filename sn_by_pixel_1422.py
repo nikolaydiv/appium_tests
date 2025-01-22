@@ -1,4 +1,5 @@
 # простой appium тест с установкой, запуском SN на 1422 и прохождением начального тутора
+# тапы производятся попиксельно
 import time
 import unittest
 from appium import webdriver
@@ -8,11 +9,11 @@ capabilities = dict(
     platformName='Android',
     automationName='uiautomator2',
     deviceName='Android',
-    language='en',
-    locale='US',
     appPackage='com.mytona.seekersnotes.android',
     appActivity='.GameStartActivity',
+    newCommandTimeout=300,
     app='C:/Users/dvd10/Downloads/appium_build.apk',  # path to your apk
+    androidInstallTimeout=180000,
     fullReset=True
 )
 
@@ -29,10 +30,10 @@ class TestAppium(unittest.TestCase):
             options=UiAutomator2Options().load_capabilities(capabilities)
         )
 
-    # @classmethod
-    # def tearDownClass(cls) -> None:
-    #     if cls.driver:
-    #         cls.driver.quit()
+    @classmethod
+    def tearDownClass(cls) -> None:
+        if cls.driver:
+            cls.driver.quit()
 
     def test_launch_app(self) -> None:
         time.sleep(10)
