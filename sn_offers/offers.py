@@ -6,8 +6,18 @@ from appium import webdriver
 from appium.options.android import UiAutomator2Options
 import os
 import cv2
-from tags_functions import (update_tags_11_1_function, update_tags_10_1_function, update_tags_9_1_function,
-                            update_tags_3_1_function)
+from tags_functions import (update_tags_11_1_function, update_tags_11_2_function, update_tags_11_3_function,
+                            update_tags_11_4_function, update_tags_11_5_function, update_tags_11_6_function,
+                            update_tags_11_7_function, update_tags_11_8_function, update_tags_11_9_function,
+                            update_tags_11_10_function, update_tags_11_11_function, update_tags_10_1_function,
+                            update_tags_10_2_function, update_tags_10_3_function, update_tags_10_4_function,
+                            update_tags_10_5_function, update_tags_10_6_function, update_tags_10_7_function,
+                            update_tags_10_8_function, update_tags_10_9_function, update_tags_10_10_function,
+                            update_tags_9_1_function, update_tags_9_2_function, update_tags_9_3_function,
+                            update_tags_9_4_function, update_tags_9_5_function, update_tags_9_6_function,
+                            update_tags_9_7_function, update_tags_9_8_function, update_tags_9_9_function,
+                            update_tags_3_1_function, update_tags_3_2_function, update_tags_3_3_function)
+from utilities.logger import Logger
 
 capabilities = dict(
     platformName='Android',
@@ -30,31 +40,42 @@ class TestAppium(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
+        Logger.add_start_step(method='setUpClass')
         cls.driver = webdriver.Remote(
             appium_server_url,
             options=UiAutomator2Options().load_capabilities(capabilities)
         )
+        Logger.add_end_step(method='setUpClass')
 
     @classmethod
     def tearDownClass(cls) -> None:
+        Logger.add_start_step(method='tearDownClass')
         if cls.driver:
             cls.driver.quit()
+        Logger.add_end_step(method='tearDownClass')
 
     def start_video(self):
+        Logger.add_start_step(method='start_video')
         self.driver.start_recording_screen()
+        Logger.add_end_step(method='start_video')
 
     def stop_video(self, output_file):
+        Logger.add_start_step('stop_video')
         encoded_video = self.driver.stop_recording_screen()
         with open(output_file, "wb") as video_file:
             video_file.write(base64.b64decode(encoded_video))
+        Logger.add_end_step(method='stop_video')
 
     def save_screenshot(self, filename: str) -> str:
+        Logger.add_start_step(method='save_screenshot')
         screenshot_path = os.path.join(os.getcwd(), filename)
         self.driver.save_screenshot(screenshot_path)
         print(f'Saved screenshot: {filename}')
+        Logger.add_end_step(method='save_screenshot')
         return screenshot_path
 
     def find_and_tap(self, button_filename: str) -> None:
+        Logger.add_start_step(method='find_and_tap')
         screenshot_path = self.save_screenshot("screenshot.png")
         self.driver.save_screenshot(screenshot_path)
         screenshot = cv2.imread(screenshot_path)
@@ -79,8 +100,10 @@ class TestAppium(unittest.TestCase):
         center_y = top_left[1] + h // 2
         self.driver.tap([(center_x, center_y)])
         print(f'Кнопка {button_filename} найдена и нажата по координатам: {center_x}, {center_y}')
+        Logger.add_end_step(method='find_and_tap')
 
     def is_it_element(self, ticket_template: str) -> bool:
+        Logger.add_start_step(method='is_it_element')
         screenshot_path = self.save_screenshot("is_it_element.png")
         self.driver.save_screenshot(screenshot_path)
         screenshot = cv2.imread(screenshot_path)
@@ -97,6 +120,7 @@ class TestAppium(unittest.TestCase):
         cv2.imwrite(result_image_path, screenshot)
 
         print(f'Max val is_it_element: {max_val}')
+        Logger.add_end_step(method='is_it_element')
 
         if max_val > 0.6:
             return True
@@ -104,14 +128,18 @@ class TestAppium(unittest.TestCase):
             return False
 
     def release_and_request(self):
+        Logger.add_start_step(method='release_and_request')
         self.driver.tap([(1200, 710)])  # release
         self.driver.tap([(1200, 645)])  # request
         self.driver.tap([(1200, 710)])
         self.driver.tap([(1200, 645)])
+        Logger.add_end_step(method='release_and_request')
 
-    def first_steps(self):
+    def first_steps(self, function):
+        Logger.add_start_step(method='first_steps')
+        time.sleep(10)
         while self.is_it_element('templates/sn/offers/play.png') is False:
-            time.sleep(10)
+            time.sleep(1)
         self.find_and_tap('templates/sn/offers/play.png')
         time.sleep(5)
         self.driver.tap([(2200, 65)])  # settings mm
@@ -130,12 +158,11 @@ class TestAppium(unittest.TestCase):
         time.sleep(0.5)
         self.driver.tap([(1217, 728)])  # payer ok
         time.sleep(0.5)
-
-    def second_steps(self):
+        function()
         self.release_and_request()
         for i in range(1, 7):
             self.driver.tap([(1100, 334)])  # +1 lvl
-        self.driver.tap([(1094, 400)])  # 7 lvl
+        self.driver.tap([(1094, 400)])
         time.sleep(3)
         self.driver.tap([(0, 0)])
         self.driver.tap([(0, 0)])  # skip hook
@@ -145,8 +172,8 @@ class TestAppium(unittest.TestCase):
         self.driver.tap([(1200, 970)])  # daily gift continue
         time.sleep(5)
         while self.is_it_element('templates/sn/offers/close_x.png') is True:
-            self.driver.back()
-            time.sleep(7)
+            self.find_and_tap('templates/sn/offers/close_x.png')
+            time.sleep(5)
         self.driver.tap([(1325, 647)])  # friend cheat
         time.sleep(1)
         self.driver.tap([(150, 930)])  # back to mm from friend
@@ -160,8 +187,8 @@ class TestAppium(unittest.TestCase):
         time.sleep(3)
         self.driver.tap([(1550, 1000)])  # complete key me (debrief)
         time.sleep(3)
-        self.driver.tap([(1480, 730)])  # OK give 10 access
-        time.sleep(2)
+        self.driver.tap([(1486, 731)])  # OK give 10 access
+        time.sleep(1)
         self.driver.back()  # close me window
         time.sleep(2)
         self.driver.tap([(230, 400)])  # tap first quest
@@ -169,13 +196,19 @@ class TestAppium(unittest.TestCase):
         self.driver.tap([(2200, 50)])  # complete first quest (brief)
         time.sleep(3)
         self.driver.tap([(1550, 1000)])  # complete first quest (debrief)
+        time.sleep(1)
+        self.driver.tap([(0, 0)])
+        time.sleep(0.5)
+        self.driver.tap([(0, 0)])
+        time.sleep(0.5)
+        self.driver.tap([(0, 0)])  # skip dialogue
 
-    def first_offer(self):
+        # first offer
         time.sleep(10)
-        while self.is_it_element('templates/sn/offers/offer_template.png') is False:
+        while self.is_it_element('templates/sn/offers/ticket_template.png') is False:
             self.driver.back()
             time.sleep(5)
-        if self.is_it_element('templates/sn/offers/offer_template.png') is True:
+        if self.is_it_element('templates/sn/offers/ticket_template.png') is True:
             self.save_screenshot("lto_1.png")
             self.driver.back()
         time.sleep(5)
@@ -196,21 +229,19 @@ class TestAppium(unittest.TestCase):
         self.driver.hide_keyboard()
         self.driver.tap([(1000, 560)])  # tap set
         time.sleep(5)
-        while self.is_it_element('templates/sn/offers/offer_template.png') is False:
+        while self.is_it_element('templates/sn/offers/ticket_template.png') is False:
             self.driver.back()
             time.sleep(5)
-        if self.is_it_element('templates/sn/offers/offer_template.png') is True:
+        if self.is_it_element('templates/sn/offers/ticket_template.png') is True:
             self.save_screenshot("oto_1.png")
             self.driver.back()
             time.sleep(2)
             self.driver.tap([(990, 920)])  # confirm oto close
+        Logger.add_end_step(method='first_steps')
 
-    def test_offer_11(self) -> None:
-        self.first_steps()
-        update_tags_11_1_function()
-        self.second_steps()
-        time.sleep(10)
-        self.first_offer()
+    def test_ticket_11(self) -> None:
+        print('Start TEST_TICKET_11')
+        self.first_steps(update_tags_11_1_function)
         # iterations
         for i in range(2, 12):
             function_name = f'update_tags_11_{i}_function'
@@ -223,35 +254,33 @@ class TestAppium(unittest.TestCase):
             self.driver.tap([(1719, 213)])  # cheats mm
             self.release_and_request()
             time.sleep(7)
-            while self.is_it_element('templates/sn/offers/offer_template.png') is False:
+            while self.is_it_element('templates/sn/offers/ticket_template.png') is False:
                 self.driver.back()
                 time.sleep(5)
-            if self.is_it_element('templates/sn/offers/offer_template.png') is True:
+            if self.is_it_element('templates/sn/offers/ticket_template.png') is True:
                 self.save_screenshot(f'lto_{i}.png')
                 self.driver.back()
             time.sleep(7)
-            while self.is_it_element('templates/close_x.png') is True:
+            while self.is_it_element('templates/sn/offers/close_x.png') is True:
                 self.driver.back()
                 time.sleep(5)
             self.driver.tap([(600, 460)])  # tap some trigger
             time.sleep(0.5)
             self.driver.tap([(1000, 560)])  # tap set
             time.sleep(7)
-            while self.is_it_element('templates/sn/offers/offer_template.png') is False:
+            while self.is_it_element('templates/sn/offers/ticket_template.png') is False:
                 self.driver.back()
                 time.sleep(5)
-            if self.is_it_element('templates/sn/offers/offer_template.png') is True:
+            if self.is_it_element('templates/sn/offers/ticket_template.png') is True:
                 self.save_screenshot(f'oto_{i}.png')
                 self.driver.back()
                 time.sleep(2)
                 self.driver.tap([(990, 920)])  # confirm oto close
+        print('Finish TEST_TICKET_11')
 
-    def test_offer_10(self) -> None:
-        self.first_steps()
-        update_tags_10_1_function()
-        self.second_steps()
-        time.sleep(10)
-        self.first_offer()
+    def test_ticket_10(self) -> None:
+        print('Start test_ticket_10')
+        self.first_steps(update_tags_10_1_function)
         # iterations
         for i in range(2, 11):
             function_name = f'update_tags_10_{i}_function'
@@ -264,10 +293,10 @@ class TestAppium(unittest.TestCase):
             self.driver.tap([(1719, 213)])  # cheats mm
             self.release_and_request()
             time.sleep(7)
-            while self.is_it_element('templates/sn/offers/offer_template.png') is False:
+            while self.is_it_element('templates/sn/offers/ticket_template.png') is False:
                 self.driver.back()
                 time.sleep(5)
-            if self.is_it_element('templates/sn/offers/offer_template.png') is True:
+            if self.is_it_element('templates/sn/offers/ticket_template.png') is True:
                 self.save_screenshot(f'lto_{i}.png')
                 self.driver.back()
             time.sleep(7)
@@ -278,23 +307,21 @@ class TestAppium(unittest.TestCase):
             time.sleep(0.5)
             self.driver.tap([(1000, 560)])  # tap set
             time.sleep(7)
-            while self.is_it_element('templates/sn/offers/offer_template.png') is False:
+            while self.is_it_element('templates/sn/offers/ticket_template.png') is False:
                 self.driver.back()
                 time.sleep(5)
-            if self.is_it_element('templates/sn/offers/offer_template.png') is True:
+            if self.is_it_element('templates/sn/offers/ticket_template.png') is True:
                 self.save_screenshot(f'oto_{i}.png')
                 self.driver.back()
                 time.sleep(2)
                 self.driver.tap([(990, 920)])  # confirm oto close
+        print('Finish test_ticket_10')
 
-    def test_offer_9(self) -> None:
-        self.first_steps()
-        update_tags_9_1_function()
-        self.second_steps()
-        time.sleep(10)
-        self.first_offer()
+    def test_ticket_9(self) -> None:
+        print('Start test_ticket_9')
+        self.first_steps(update_tags_9_1_function)
         # iterations
-        for i in range(2, 10):
+        for i in range(2, 11):
             function_name = f'update_tags_9_{i}_function'
             func = globals().get(function_name)
             func()
@@ -305,10 +332,10 @@ class TestAppium(unittest.TestCase):
             self.driver.tap([(1719, 213)])  # cheats mm
             self.release_and_request()
             time.sleep(7)
-            while self.is_it_element('templates/sn/offers/offer_template.png') is False:
+            while self.is_it_element('templates/sn/offers/ticket_template.png') is False:
                 self.driver.back()
                 time.sleep(5)
-            if self.is_it_element('templates/sn/offers/offer_template.png') is True:
+            if self.is_it_element('templates/sn/offers/ticket_template.png') is True:
                 self.save_screenshot(f'lto_{i}.png')
                 self.driver.back()
             time.sleep(7)
@@ -319,23 +346,21 @@ class TestAppium(unittest.TestCase):
             time.sleep(0.5)
             self.driver.tap([(1000, 560)])  # tap set
             time.sleep(7)
-            while self.is_it_element('templates/sn/offers/offer_template.png') is False:
+            while self.is_it_element('templates/sn/offers/ticket_template.png') is False:
                 self.driver.back()
                 time.sleep(5)
-            if self.is_it_element('templates/sn/offers/offer_template.png') is True:
+            if self.is_it_element('templates/sn/offers/ticket_template.png') is True:
                 self.save_screenshot(f'oto_{i}.png')
                 self.driver.back()
                 time.sleep(2)
                 self.driver.tap([(990, 920)])  # confirm oto close
+        print('Finish test_ticket_9')
 
-    def test_offer_3(self) -> None:
-        self.first_steps()
-        update_tags_3_1_function()
-        self.second_steps()
-        time.sleep(10)
-        self.first_offer()
+    def test_ticket_3(self) -> None:
+        print('Start test_ticket_3')
+        self.first_steps(update_tags_3_1_function)
         # iterations
-        for i in range(2, 7):
+        for i in range(2, 11):
             function_name = f'update_tags_3_{i}_function'
             func = globals().get(function_name)
             func()
@@ -346,10 +371,10 @@ class TestAppium(unittest.TestCase):
             self.driver.tap([(1719, 213)])  # cheats mm
             self.release_and_request()
             time.sleep(7)
-            while self.is_it_element('templates/sn/offers/offer_template.png') is False:
+            while self.is_it_element('templates/sn/offers/ticket_template.png') is False:
                 self.driver.back()
                 time.sleep(5)
-            if self.is_it_element('templates/sn/offers/offer_template.png') is True:
+            if self.is_it_element('templates/sn/offers/ticket_template.png') is True:
                 self.save_screenshot(f'lto_{i}.png')
                 self.driver.back()
             time.sleep(7)
@@ -360,14 +385,15 @@ class TestAppium(unittest.TestCase):
             time.sleep(0.5)
             self.driver.tap([(1000, 560)])  # tap set
             time.sleep(7)
-            while self.is_it_element('templates/sn/offers/offer_template.png') is False:
+            while self.is_it_element('templates/sn/offers/ticket_template.png') is False:
                 self.driver.back()
                 time.sleep(5)
-            if self.is_it_element('templates/sn/offers/offer_template.png') is True:
+            if self.is_it_element('templates/sn/offers/ticket_template.png') is True:
                 self.save_screenshot(f'oto_{i}.png')
                 self.driver.back()
                 time.sleep(2)
                 self.driver.tap([(990, 920)])  # confirm oto close
+        print('Finish test_ticket_3')
 
 
 if __name__ == '__main__':

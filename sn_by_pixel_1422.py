@@ -1,9 +1,12 @@
 # простой appium тест с установкой, запуском SN на 1422 и прохождением начального тутора
 # тапы производятся попиксельно
+import os
 import time
 import unittest
+import datetime
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
+from utilities.logger import Logger
 
 capabilities = dict(
     platformName='Android',
@@ -25,17 +28,41 @@ class TestAppium(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
+        Logger.add_start_step(method='setUpClass')
         cls.driver = webdriver.Remote(
             appium_server_url,
             options=UiAutomator2Options().load_capabilities(capabilities)
         )
+        Logger.add_end_step(method='setUpClass')
 
     @classmethod
     def tearDownClass(cls) -> None:
+        Logger.add_start_step(method='tearDownClass')
         if cls.driver:
             cls.driver.quit()
+        Logger.add_end_step(method='tearDownClass')
+
+    def save_screenshot(self, filename: str) -> str:
+        Logger.add_start_step(method='save_screenshot')
+        project_root = os.path.dirname(os.path.abspath(__file__))
+        now_date = datetime.datetime.now().strftime("%d.%m.%Y.%H.%M.%S.")
+        screenshots_folder = os.path.join(project_root, 'screenshots')
+        if not os.path.exists(screenshots_folder):
+            os.makedirs(screenshots_folder)
+
+        screenshot_folder = os.path.join(screenshots_folder, f'{now_date}')
+        if not os.path.exists(screenshot_folder):
+            os.makedirs(screenshot_folder)
+
+        screenshot_path = os.path.join(screenshot_folder, filename)
+
+        self.driver.save_screenshot(screenshot_path)
+        print(f'Saved screenshot: {filename}')
+        Logger.add_end_step(method='save_screenshot')
+        return screenshot_path
 
     def test_launch_and_tutor(self) -> None:
+        print("Start TEST_LAUNCH_AND_TUTOR")
         time.sleep(10)
         # нажатие ПРИНЯТЬ
         self.driver.tap([(1200, 1000)])
@@ -112,7 +139,9 @@ class TestAppium(unittest.TestCase):
         self.driver.tap([(640, 580)])
         time.sleep(2)
         self.driver.tap([(1200, 960)])
-        time.sleep(2)
+        time.sleep(5)
+        self.save_screenshot('success.png')
+        print("Finish TEST_LAUNCH_AND_TUTOR")
 
 
 if __name__ == '__main__':

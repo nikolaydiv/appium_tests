@@ -6,6 +6,7 @@ from appium import webdriver
 from appium.options.android import UiAutomator2Options
 import os
 import cv2
+from utilities.logger import Logger
 
 capabilities = dict(
     platformName='Android',
@@ -27,23 +28,30 @@ class TestAppium(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
+        Logger.add_start_step(method='setUpClass')
         cls.driver = webdriver.Remote(
             appium_server_url,
             options=UiAutomator2Options().load_capabilities(capabilities)
         )
+        Logger.add_end_step(method='setUpClass')
 
     @classmethod
     def tearDownClass(cls) -> None:
+        Logger.add_start_step(method='tearDownClass')
         if cls.driver:
             cls.driver.quit()
+        Logger.add_end_step(method='tearDownClass')
 
     def save_screenshot(self, filename: str) -> str:
+        Logger.add_start_step(method='save_screenshot')
         screenshot_path = os.path.join(os.getcwd(), filename)
         self.driver.save_screenshot(screenshot_path)
         print(f'Saved screenshot: {filename}')
+        Logger.add_end_step(method='save_screenshot')
         return screenshot_path
 
     def find_and_tap(self, button_filename: str) -> None:
+        Logger.add_start_step(method='find_and_tap')
         screenshot_path = self.save_screenshot("screenshot.png")
         self.driver.save_screenshot(screenshot_path)
         screenshot = cv2.imread(screenshot_path)
@@ -68,8 +76,10 @@ class TestAppium(unittest.TestCase):
         center_y = top_left[1] + h // 2
         self.driver.tap([(center_x, center_y)])
         print(f'Кнопка {button_filename} найдена и нажата по координатам: {center_x}, {center_y}')
+        Logger.add_end_step(method='find_and_tap')
 
     def test_launch_and_tutor(self) -> None:
+        print("Start TESN_LAUCNH_AND_TUTOR")
         time.sleep(10)
         self.find_and_tap('templates/sn/launch/apply.PNG')
         time.sleep(10)
@@ -137,6 +147,7 @@ class TestAppium(unittest.TestCase):
         time.sleep(2)
         self.find_and_tap('templates/sn/first_tutor/ok.PNG')
         time.sleep(2)
+        print("Finish TEST_LAUNCH_AND_TUTOR")
 
 
 if __name__ == '__main__':
