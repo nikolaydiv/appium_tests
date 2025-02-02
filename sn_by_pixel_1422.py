@@ -7,6 +7,8 @@ import datetime
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from utilities.logger import Logger
+from google.oauth2 import service_account
+from googleapiclient.discovery import build
 
 capabilities = dict(
     platformName='Android',
@@ -21,6 +23,9 @@ capabilities = dict(
 )
 
 appium_server_url = 'http://localhost:4723'
+SCOPES = ['https://www.googleapis.com/auth/drive']
+SERVICE_ACCOUNT_FILE = 'path_to_your_key.json'
+PARENT_FOLDER_ID = "your_google_drive_folder_id"
 
 
 class TestAppium(unittest.TestCase):
@@ -42,6 +47,24 @@ class TestAppium(unittest.TestCase):
             cls.driver.quit()
         Logger.add_end_step(method='tearDownClass')
 
+    def auth(self):
+        creds = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+        return creds
+
+    def upload_file(self, file_path, file_name):
+        creds = self.auth()
+        service = build('drive', 'v3', credentials=creds)
+
+        file_metadata = {
+            'name': file_name,
+            'parents': [PARENT_FOLDER_ID]
+        }
+
+        file = service.files().create(
+            body=file_metadata,
+            media_body=file_path
+        ).execute()
+
     def save_screenshot(self, filename: str) -> str:
         Logger.add_start_step(method='save_screenshot')
         project_root = os.path.dirname(os.path.abspath(__file__))
@@ -50,13 +73,10 @@ class TestAppium(unittest.TestCase):
         if not os.path.exists(screenshots_folder):
             os.makedirs(screenshots_folder)
 
-        screenshot_folder = os.path.join(screenshots_folder, f'{now_date}')
-        if not os.path.exists(screenshot_folder):
-            os.makedirs(screenshot_folder)
-
-        screenshot_path = os.path.join(screenshot_folder, filename)
+        screenshot_path = os.path.join(screenshots_folder, filename)
 
         self.driver.save_screenshot(screenshot_path)
+        self.upload_file(screenshot_path, f"{now_date}{filename}")
         print(f'Saved screenshot: {filename}')
         Logger.add_end_step(method='save_screenshot')
         return screenshot_path
