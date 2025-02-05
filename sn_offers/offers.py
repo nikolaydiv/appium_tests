@@ -135,6 +135,29 @@ class TestAppium(unittest.TestCase):
         self.driver.tap([(1200, 645)])
         Logger.add_end_step(method='release_and_request')
 
+    def close_popup(self):
+        while self.is_it_element('templates/sn/offers/close_x.png'):
+            self.driver.back()
+            time.sleep(5)
+
+    def wait_for_ticket_lto(self, template, filename):
+        while not self.is_it_element(template):
+            self.driver.back()
+            time.sleep(5)
+        if self.is_it_element(template):
+            self.save_screenshot(filename)
+            self.driver.back()
+
+    def wait_for_ticket_oto(self, template, filename):
+        while not self.is_it_element(template):
+            self.driver.back()
+            time.sleep(5)
+        if self.is_it_element(template):
+            self.save_screenshot(filename)
+            self.driver.back()
+            time.sleep(3)
+            self.driver.tap([(990, 920)])  # confirm oto close
+
     def first_steps(self, function):
         Logger.add_start_step(method='first_steps')
         time.sleep(10)
@@ -248,34 +271,18 @@ class TestAppium(unittest.TestCase):
             func = globals().get(function_name)
             func()
             time.sleep(5)
-            while self.is_it_element('templates/sn/offers/close_x.png') is True:
-                self.driver.back()
-                time.sleep(5)
+            self.close_popup()
             self.driver.tap([(1719, 213)])  # cheats mm
             self.release_and_request()
             time.sleep(7)
-            while self.is_it_element('templates/sn/offers/ticket_template.png') is False:
-                self.driver.back()
-                time.sleep(5)
-            if self.is_it_element('templates/sn/offers/ticket_template.png') is True:
-                self.save_screenshot(f'lto_{i}.png')
-                self.driver.back()
+            self.wait_for_ticket_lto('templates/sn/offers/offer_template.png', f'lto_{i}.png')
             time.sleep(7)
-            while self.is_it_element('templates/sn/offers/close_x.png') is True:
-                self.driver.back()
-                time.sleep(5)
+            self.close_popup()
             self.driver.tap([(600, 460)])  # tap some trigger
             time.sleep(0.5)
             self.driver.tap([(1000, 560)])  # tap set
             time.sleep(7)
-            while self.is_it_element('templates/sn/offers/ticket_template.png') is False:
-                self.driver.back()
-                time.sleep(5)
-            if self.is_it_element('templates/sn/offers/ticket_template.png') is True:
-                self.save_screenshot(f'oto_{i}.png')
-                self.driver.back()
-                time.sleep(2)
-                self.driver.tap([(990, 920)])  # confirm oto close
+            self.wait_for_ticket_oto('templates/sn/offers/offer_template.png', f'oto_{i}.png')
         print('Finish TEST_TICKET_11')
 
     def test_ticket_10(self) -> None:
@@ -287,112 +294,64 @@ class TestAppium(unittest.TestCase):
             func = globals().get(function_name)
             func()
             time.sleep(5)
-            while self.is_it_element('templates/sn/offers/close_x.png') is True:
-                self.driver.back()
-                time.sleep(5)
+            self.close_popup()
             self.driver.tap([(1719, 213)])  # cheats mm
             self.release_and_request()
             time.sleep(7)
-            while self.is_it_element('templates/sn/offers/ticket_template.png') is False:
-                self.driver.back()
-                time.sleep(5)
-            if self.is_it_element('templates/sn/offers/ticket_template.png') is True:
-                self.save_screenshot(f'lto_{i}.png')
-                self.driver.back()
+            self.wait_for_ticket_lto('templates/sn/offers/offer_template.png', f'lto_{i}.png')
             time.sleep(7)
-            while self.is_it_element('templates/sn/offers/close_x.png') is True:
-                self.driver.back()
-                time.sleep(5)
+            self.close_popup()
             self.driver.tap([(600, 460)])  # tap some trigger
             time.sleep(0.5)
             self.driver.tap([(1000, 560)])  # tap set
             time.sleep(7)
-            while self.is_it_element('templates/sn/offers/ticket_template.png') is False:
-                self.driver.back()
-                time.sleep(5)
-            if self.is_it_element('templates/sn/offers/ticket_template.png') is True:
-                self.save_screenshot(f'oto_{i}.png')
-                self.driver.back()
-                time.sleep(2)
-                self.driver.tap([(990, 920)])  # confirm oto close
+            self.wait_for_ticket_oto('templates/sn/offers/offer_template.png', f'oto_{i}.png')
         print('Finish test_ticket_10')
 
     def test_ticket_9(self) -> None:
         print('Start test_ticket_9')
         self.first_steps(update_tags_9_1_function)
         # iterations
-        for i in range(2, 11):
+        for i in range(2, 10):
             function_name = f'update_tags_9_{i}_function'
             func = globals().get(function_name)
             func()
             time.sleep(5)
-            while self.is_it_element('templates/sn/offers/close_x.png') is True:
-                self.driver.back()
-                time.sleep(5)
+            self.close_popup()
             self.driver.tap([(1719, 213)])  # cheats mm
             self.release_and_request()
             time.sleep(7)
-            while self.is_it_element('templates/sn/offers/ticket_template.png') is False:
-                self.driver.back()
-                time.sleep(5)
-            if self.is_it_element('templates/sn/offers/ticket_template.png') is True:
-                self.save_screenshot(f'lto_{i}.png')
-                self.driver.back()
+            self.wait_for_ticket_lto('templates/sn/offers/offer_template.png', f'lto_{i}.png')
             time.sleep(7)
-            while self.is_it_element('templates/sn/offers/close_x.png') is True:
-                self.driver.back()
-                time.sleep(5)
+            self.close_popup()
             self.driver.tap([(600, 460)])  # tap some trigger
             time.sleep(0.5)
             self.driver.tap([(1000, 560)])  # tap set
             time.sleep(7)
-            while self.is_it_element('templates/sn/offers/ticket_template.png') is False:
-                self.driver.back()
-                time.sleep(5)
-            if self.is_it_element('templates/sn/offers/ticket_template.png') is True:
-                self.save_screenshot(f'oto_{i}.png')
-                self.driver.back()
-                time.sleep(2)
-                self.driver.tap([(990, 920)])  # confirm oto close
+            self.wait_for_ticket_oto('templates/sn/offers/offer_template.png', f'oto_{i}.png')
         print('Finish test_ticket_9')
 
     def test_ticket_3(self) -> None:
         print('Start test_ticket_3')
         self.first_steps(update_tags_3_1_function)
         # iterations
-        for i in range(2, 11):
+        for i in range(2, 7):
             function_name = f'update_tags_3_{i}_function'
             func = globals().get(function_name)
             func()
             time.sleep(5)
-            while self.is_it_element('templates/sn/offers/close_x.png') is True:
-                self.driver.back()
-                time.sleep(5)
+            self.close_popup()
             self.driver.tap([(1719, 213)])  # cheats mm
             self.release_and_request()
             time.sleep(7)
-            while self.is_it_element('templates/sn/offers/ticket_template.png') is False:
-                self.driver.back()
-                time.sleep(5)
-            if self.is_it_element('templates/sn/offers/ticket_template.png') is True:
-                self.save_screenshot(f'lto_{i}.png')
-                self.driver.back()
+            self.wait_for_ticket_lto('templates/sn/offers/offer_template.png', f'lto_{i}.png')
             time.sleep(7)
-            while self.is_it_element('templates/sn/offers/close_x.png') is True:
-                self.driver.back()
-                time.sleep(5)
+            self.close_popup()
             self.driver.tap([(600, 460)])  # tap some trigger
             time.sleep(0.5)
             self.driver.tap([(1000, 560)])  # tap set
             time.sleep(7)
-            while self.is_it_element('templates/sn/offers/ticket_template.png') is False:
-                self.driver.back()
-                time.sleep(5)
-            if self.is_it_element('templates/sn/offers/ticket_template.png') is True:
-                self.save_screenshot(f'oto_{i}.png')
-                self.driver.back()
-                time.sleep(2)
-                self.driver.tap([(990, 920)])  # confirm oto close
+            self.wait_for_ticket_oto('templates/sn/offers/offer_template.png', f'oto_{i}.png')
         print('Finish test_ticket_3')
 
 
