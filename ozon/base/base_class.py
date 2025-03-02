@@ -1,5 +1,6 @@
 import datetime
 import os
+from appium import webdriver
 
 
 class Base():
@@ -32,3 +33,6 @@ class Base():
     def delete_values(self):
         for _ in range(7):
             os.system("adb shell input keyevent KEYCODE_DEL")
+
+    def scroll_to_element(self, element):
+        self.driver.execute_script("mobile: scroll", {"element": element, "toVisible": True})
