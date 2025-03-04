@@ -5,6 +5,7 @@ from appium import webdriver
 import time
 
 from ozon.base.base_class import Base
+from ozon.utilities.logger import Logger
 
 
 class ProductsPage(Base):
@@ -18,7 +19,6 @@ class ProductsPage(Base):
     first_product = 'new UiSelector().resourceId("ru.ozon.app.android:id/contentElementsVAL").instance(0)'
     second_product = 'new UiSelector().resourceId("ru.ozon.app.android:id/tileGridItemCl").instance(1)'
     name_locator = 'tile-name'
-    price_locator = 'price.price'
     fav_1 = 'new UiSelector().resourceId("ru.ozon.app.android:id/favIcon").instance(0)'
     fav_2 = 'new UiSelector().resourceId("ru.ozon.app.android:id/favIcon").instance(1)'
     my_ozon = 'ru.ozon.app.android:id/menu_profile'
@@ -54,14 +54,15 @@ class ProductsPage(Base):
         self.get_filters().click()
         print('clicked FILTERS')
 
-    def get_products_text(self):
-        product_name_element_1 = self.get_first_product_name()
-        product_name_1 = product_name_element_1.text
-        print(f'First product name: {product_name_1}')
+    def get_product_name_1(self):
+        product_name = self.get_first_product_name().text
+        print(f'First product name on products page: {product_name}')
+        return product_name
 
-        product_name_element_2 = self.get_second_product_name()
-        product_name_2 = product_name_element_2.text
-        print(f'Second product name: {product_name_2}')
+    def get_product_name_2(self):
+        product_name = self.get_second_product_name().text
+        print(f'Second product name on products page: {product_name}')
+        return product_name
 
     def click_favs(self):
         self.get_fav_1().click()
@@ -78,6 +79,8 @@ class ProductsPage(Base):
         self.click_get_filters()
 
     def get_names_fav_my_ozon(self):
-        self.get_products_text()
+        Logger.add_start_step(method='get_names_fav_my_ozon')
+        self.get_product_name_1()
+        self.get_product_name_2()
         self.click_favs()
         self.click_my_ozon()

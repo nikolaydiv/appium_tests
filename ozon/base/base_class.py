@@ -9,8 +9,8 @@ class Base():
         self.driver = driver
 
     def assert_word(self, word, result):
-        ar_word = word.text
-        er_word = result.text
+        ar_word = word
+        er_word = result
         assert ar_word == er_word
         print('assert ok')
 
@@ -36,3 +36,13 @@ class Base():
 
     def scroll_to_element(self, element):
         self.driver.execute_script("mobile: scroll", {"element": element, "toVisible": True})
+
+    def get_screenshot_wishlist(self):
+        now_date = datetime.datetime.now().strftime("%d.%m.%Y.%H.%M.%S")
+        name_screenshot = f'screenshot_{now_date}.png'
+
+        screenshots_folder = os.path.join(os.path.dirname(__file__), '..', 'screenshots', 'wishlist')
+
+        screenshot_path = os.path.join(screenshots_folder, name_screenshot)
+
+        self.driver.save_screenshot(screenshot_path)

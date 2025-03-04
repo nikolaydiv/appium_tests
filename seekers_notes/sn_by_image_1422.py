@@ -6,7 +6,7 @@ from appium import webdriver
 from appium.options.android import UiAutomator2Options
 import os
 import cv2
-from utilities.logger import Logger
+from seekers_notes.utilities import Logger
 
 capabilities = dict(
     platformName='Android',

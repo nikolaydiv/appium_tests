@@ -22,9 +22,9 @@ appium_server_url = 'http://localhost:4723'
 
 @pytest.fixture(scope="module")
 def appium_driver():
-    print('start module')
+    print('\nstart module')
     driver = webdriver.Remote(appium_server_url, options=UiAutomator2Options().load_capabilities(capabilities))
     yield driver
-    print('finish module')
+    print('\nfinish module')
     time.sleep(1)
     driver.quit()

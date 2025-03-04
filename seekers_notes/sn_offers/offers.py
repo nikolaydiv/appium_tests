@@ -6,18 +6,9 @@ from appium import webdriver
 from appium.options.android import UiAutomator2Options
 import os
 import cv2
-from tags_functions import (update_tags_11_1_function, update_tags_11_2_function, update_tags_11_3_function,
-                            update_tags_11_4_function, update_tags_11_5_function, update_tags_11_6_function,
-                            update_tags_11_7_function, update_tags_11_8_function, update_tags_11_9_function,
-                            update_tags_11_10_function, update_tags_11_11_function, update_tags_10_1_function,
-                            update_tags_10_2_function, update_tags_10_3_function, update_tags_10_4_function,
-                            update_tags_10_5_function, update_tags_10_6_function, update_tags_10_7_function,
-                            update_tags_10_8_function, update_tags_10_9_function, update_tags_10_10_function,
-                            update_tags_9_1_function, update_tags_9_2_function, update_tags_9_3_function,
-                            update_tags_9_4_function, update_tags_9_5_function, update_tags_9_6_function,
-                            update_tags_9_7_function, update_tags_9_8_function, update_tags_9_9_function,
-                            update_tags_3_1_function, update_tags_3_2_function, update_tags_3_3_function)
-from utilities.logger import Logger
+from tags_functions import (update_tags_11_1_function, update_tags_10_1_function,
+                            update_tags_9_1_function, update_tags_3_1_function)
+from seekers_notes.utilities import Logger
 
 capabilities = dict(
     platformName='Android',
