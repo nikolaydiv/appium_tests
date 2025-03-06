@@ -22,6 +22,9 @@ class ProductsPage(Base):
     fav_1 = 'new UiSelector().resourceId("ru.ozon.app.android:id/favIcon").instance(0)'
     fav_2 = 'new UiSelector().resourceId("ru.ozon.app.android:id/favIcon").instance(1)'
     my_ozon = 'ru.ozon.app.android:id/menu_profile'
+    add_to_cart_1 = 'new UiSelector().resourceId("ru.ozon.app.android:id/firstButton").instance(0)'
+    add_to_cart_2 = 'new UiSelector().description("ozonAddToCart")'
+    cart = 'ru.ozon.app.android:id/menu_cart'
 
     # Getters
 
@@ -47,6 +50,12 @@ class ProductsPage(Base):
     def get_fav_2(self): return WebDriverWait(self.driver, 10). until(EC.element_to_be_clickable((AppiumBy.ANDROID_UIAUTOMATOR, self.fav_2)))
 
     def get_my_ozon(self): return WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((AppiumBy.ID, self.my_ozon)))
+
+    def get_add_to_cart_1(self): return WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((AppiumBy.ANDROID_UIAUTOMATOR, self.add_to_cart_1)))
+
+    def get_add_to_cart_2(self): return WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((AppiumBy.ANDROID_UIAUTOMATOR, self.add_to_cart_2)))
+
+    def get_cart(self): return WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((AppiumBy.ID, self.cart)))
 
     # Actions
 
@@ -74,9 +83,23 @@ class ProductsPage(Base):
         self.get_my_ozon().click()
         print('clicked MY OZON')
 
+    def click_add_to_cart_1(self):
+        self.get_add_to_cart_1().click()
+        print('clicked ADD TO CART 1')
+
+    def click_add_to_cart_2(self):
+        self.get_add_to_cart_2().click()
+        print('clicked ADD TO CART 2')
+
+    def click_get_cart(self):
+        self.get_cart().click()
+        print('clicked CART')
+
     # Methods
-    def click_filters(self):
+    def enter_filters(self):
+        Logger.add_start_step(method='enter_filters')
         self.click_get_filters()
+        Logger.add_end_step(method='enter_filters')
 
     def get_names_fav_my_ozon(self):
         Logger.add_start_step(method='get_names_fav_my_ozon')
@@ -84,3 +107,16 @@ class ProductsPage(Base):
         self.get_product_name_2()
         self.click_favs()
         self.click_my_ozon()
+        Logger.add_end_step(method='get_names_fav_my_ozon')
+
+    def add_to_cart_and_enter(self):
+        Logger.add_start_step('add_to_cart_and_enter')
+        self.click_add_to_cart_1()
+        self.get_product_name_1()
+        self.click_add_to_cart_2()
+        self.get_product_name_2()
+        self.get_screenshot_add_to_cart_and_delete()
+        self.click_get_cart()
+        Logger.add_end_step('add_to_cart_and_enter')
+
+

@@ -18,7 +18,7 @@ def test_wishlist(appium_driver):
     mp.choose_smartphones_category()
 
     pp = ProductsPage(driver)
-    pp.click_filters()
+    pp.enter_filters()
 
     fp = FiltersPage(driver)
     fp.set_filters()

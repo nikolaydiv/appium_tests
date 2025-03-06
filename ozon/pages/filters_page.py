@@ -5,6 +5,7 @@ from appium import webdriver
 import time
 
 from ozon.base.base_class import Base
+from ozon.utilities.logger import Logger
 
 
 class FiltersPage(Base):
@@ -89,6 +90,7 @@ class FiltersPage(Base):
 
     # Methods
     def set_filters(self):
+        Logger.add_start_step(method='set_filters')
         self.click_apple()
         self.scroll_to_is_original()
         self.click_is_original()
@@ -98,3 +100,4 @@ class FiltersPage(Base):
         self.driver.hide_keyboard()
         self.click_apply()
         time.sleep(3)
+        Logger.add_end_step(method='set_filters')

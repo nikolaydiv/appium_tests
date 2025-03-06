@@ -3,7 +3,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from ozon.base.base_class import Base
-from ozon.pages.products_page import ProductsPage
 from ozon.utilities.logger import Logger
 
 
@@ -75,7 +74,9 @@ class WishlistPage(Base):
         Logger.add_end_step(method='compare_names')
 
     def clear_wishlist(self):
+        Logger.add_start_step(method='clear_wishlist')
         self.click_unfav_1()
         self.click_unfav_2()
         self.get_screenshot_wishlist()
         print('CLEARED WISHLIST')
+        Logger.add_end_step(method='clear_wishlist')

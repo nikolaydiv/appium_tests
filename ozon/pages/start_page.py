@@ -1,8 +1,10 @@
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import StaleElementReferenceException
 
 from ozon.base.base_class import Base
+from ozon.utilities.logger import Logger
 
 
 class StartPage(Base):
@@ -27,4 +29,11 @@ class StartPage(Base):
     # Methods
 
     def enter_app(self):
-        self.click_notif_later()
+        Logger.add_start_step(method='enter_app')
+        for _ in range(3):
+            try:
+                self.click_notif_later()
+                break
+            except StaleElementReferenceException:
+                raise Exception('Не удалось запустить тест')
+        Logger.add_end_step(method='enter_app')

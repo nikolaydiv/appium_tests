@@ -46,3 +46,13 @@ class Base():
         screenshot_path = os.path.join(screenshots_folder, name_screenshot)
 
         self.driver.save_screenshot(screenshot_path)
+
+    def get_screenshot_add_to_cart_and_delete(self):
+        now_date = datetime.datetime.now().strftime("%d.%m.%Y.%H.%M.%S")
+        name_screenshot = f'screenshot_{now_date}.png'
+
+        screenshots_folder = os.path.join(os.path.dirname(__file__), '..', 'screenshots', 'add_to_cart_and_delete')
+
+        screenshot_path = os.path.join(screenshots_folder, name_screenshot)
+
+        self.driver.save_screenshot(screenshot_path)

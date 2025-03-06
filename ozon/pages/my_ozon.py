@@ -4,6 +4,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 
 from ozon.base.base_class import Base
+from ozon.utilities.logger import Logger
 
 class MyOzonPage(Base):
 
@@ -28,4 +29,6 @@ class MyOzonPage(Base):
     # Methods
 
     def enter_wishlist(self):
+        Logger.add_start_step('enter_wishlist')
         self.click_wishlist()
+        Logger.add_end_step('enter_wishlist')
