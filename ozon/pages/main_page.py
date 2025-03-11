@@ -1,3 +1,5 @@
+import time
+
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -18,6 +20,7 @@ class MainPage(Base):
     smartphones = 'new UiSelector().resourceId("ru.ozon.app.android:id/backgroundV").instance(6)'
     error_logo = 'ru.ozon.app.android:id/errorLogoIv'
     close_error = 'ru.ozon.app.android:id/closeButton'
+    search_field = 'ru.ozon.app.android:id/searchTv'
 
     # Getters
 
@@ -27,6 +30,8 @@ class MainPage(Base):
     def get_error_logo(self): return WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((AppiumBy.ID, self.error_logo)))
 
     def get_close_error(self): return WebDriverWait(self.driver, 5).until(EC.element_to_be_clickable((AppiumBy.ID, self.close_error)))
+
+    def get_search_field(self): return WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((AppiumBy.ID, self.search_field)))
 
     # Actions
 
@@ -42,6 +47,10 @@ class MainPage(Base):
         self.get_close_error().click()
         print('closed ERROR')
 
+    def click_search_field(self):
+        self.get_search_field().click()
+        print('clicked SEARCH FIELD')
+
     # Methods
 
     def choose_smartphones_category(self):
@@ -53,3 +62,14 @@ class MainPage(Base):
         self.click_catalog()
         self.click_smartphones()
         Logger.add_end_step(method='choose_smartphones_category')
+
+    def find_by_article(self):
+        Logger.add_start_step(method='find_by_article')
+        self.click_search_field()
+        self.set_article()
+        print('entered ARTICLE')
+        time.sleep(5)
+        self.is_it_element('gosling.png')
+        print('PRODUCT IS CORRECT')
+        self.get_screenshot_find_by_article()
+        Logger.add_end_step(method='find_by_article')

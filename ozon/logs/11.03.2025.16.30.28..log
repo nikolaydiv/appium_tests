@@ -1,0 +1,81 @@
+
+-----
+Test: test_add_to_wishlist.py::test_wishlist (call)
+Start time: 2025-03-11 16:30:34.493407
+Start name method: enter_app
+End time: 2025-03-11 16:30:45.248687
+End name method: enter_app
+
+-----
+
+-----
+Test: test_add_to_wishlist.py::test_wishlist (call)
+Start time: 2025-03-11 16:30:45.249687
+Start name method: choose_smartphones_category
+End time: 2025-03-11 16:30:49.442414
+End name method: choose_smartphones_category
+
+-----
+
+-----
+Test: test_add_to_wishlist.py::test_wishlist (call)
+Start time: 2025-03-11 16:30:49.442414
+Start name method: enter_filters
+End time: 2025-03-11 16:30:51.281061
+End name method: enter_filters
+
+-----
+
+-----
+Test: test_add_to_wishlist.py::test_wishlist (call)
+Start time: 2025-03-11 16:30:51.282060
+Start name method: set_filters
+End time: 2025-03-11 16:31:23.587586
+End name method: set_filters
+
+-----
+
+-----
+Test: test_add_to_wishlist.py::test_wishlist (call)
+Start time: 2025-03-11 16:31:23.587586
+Start name method: get_names_fav_my_ozon
+End time: 2025-03-11 16:31:28.315714
+End name method: get_names_fav_my_ozon
+
+-----
+
+-----
+Test: test_add_to_wishlist.py::test_wishlist (call)
+Start time: 2025-03-11 16:31:28.315714
+Start name method: enter_wishlist
+End time: 2025-03-11 16:31:28.699740
+End name method: enter_wishlist
+
+-----
+
+-----
+Test: test_add_to_wishlist.py::test_wishlist (call)
+Start time: 2025-03-11 16:31:32.415073
+Start name method: compare_names
+End time: 2025-03-11 16:31:32.415073
+End name method: compare_names
+
+-----
+
+-----
+Test: test_add_to_wishlist.py::test_wishlist (call)
+Start time: 2025-03-11 16:31:32.415073
+Start name method: compare_names
+End time: 2025-03-11 16:31:32.415073
+End name method: compare_names
+
+-----
+
+-----
+Test: test_add_to_wishlist.py::test_wishlist (call)
+Start time: 2025-03-11 16:31:32.416072
+Start name method: clear_wishlist
+End time: 2025-03-11 16:31:34.855820
+End name method: clear_wishlist
+
+-----

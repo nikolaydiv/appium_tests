@@ -1,0 +1,63 @@
+
+-----
+Test: test_add_to_cart_and_delete.py::test_add_to_cart_and_delete (call)
+Start time: 2025-03-11 16:32:19.217370
+Start name method: enter_app
+End time: 2025-03-11 16:32:30.139838
+End name method: enter_app
+
+-----
+
+-----
+Test: test_add_to_cart_and_delete.py::test_add_to_cart_and_delete (call)
+Start time: 2025-03-11 16:32:30.139838
+Start name method: choose_smartphones_category
+End time: 2025-03-11 16:32:35.193540
+End name method: choose_smartphones_category
+
+-----
+
+-----
+Test: test_add_to_cart_and_delete.py::test_add_to_cart_and_delete (call)
+Start time: 2025-03-11 16:32:37.468521
+Start name method: add_to_cart_and_enter
+End time: 2025-03-11 16:32:42.260032
+End name method: add_to_cart_and_enter
+
+-----
+
+-----
+Test: test_add_to_cart_and_delete.py::test_add_to_cart_and_delete (call)
+Start time: 2025-03-11 16:32:42.261032
+Start name method: get_names
+End time: 2025-03-11 16:32:45.927910
+End name method: get_names
+
+-----
+
+-----
+Test: test_add_to_cart_and_delete.py::test_add_to_cart_and_delete (call)
+Start time: 2025-03-11 16:32:46.727287
+Start name method: compare_names
+End time: 2025-03-11 16:32:46.728301
+End name method: compare_names
+
+-----
+
+-----
+Test: test_add_to_cart_and_delete.py::test_add_to_cart_and_delete (call)
+Start time: 2025-03-11 16:32:46.728301
+Start name method: compare_names
+End time: 2025-03-11 16:32:46.728301
+End name method: compare_names
+
+-----
+
+-----
+Test: test_add_to_cart_and_delete.py::test_add_to_cart_and_delete (call)
+Start time: 2025-03-11 16:32:46.728301
+Start name method: clear_cart
+End time: 2025-03-11 16:32:59.834153
+End name method: clear_cart
+
+-----

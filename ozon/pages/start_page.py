@@ -1,7 +1,7 @@
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 
 from ozon.base.base_class import Base
 from ozon.utilities.logger import Logger
@@ -23,8 +23,12 @@ class StartPage(Base):
     # Actions
 
     def click_notif_later(self):
-        self.get_notif_later().click()
-        print('clicked NOTIF LATER')
+        try:
+            self.get_notif_later().click()
+            print('clicked NOTIF LATER')
+        except TimeoutException:
+            print("NOTIF LATER didn't come out")
+            pass
 
     # Methods
 
