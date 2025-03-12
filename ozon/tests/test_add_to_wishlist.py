@@ -41,5 +41,9 @@ def test_wishlist(appium_driver):
     wp.compare_names(product_name_pp_2, product_name_wp_2)
 
     wp.clear_wishlist()
+    wp.update_page_and_get_empty()
+
+    wp.empty_wishlist_text = wp.get_empty_wishlist_text()
+    wp.compare_names(wp.empty_wishlist_text, 'В избранном пусто')
 
     print('FINISH TEST ADD TO WISHLIST')

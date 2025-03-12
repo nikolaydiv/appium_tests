@@ -25,6 +25,15 @@ class ProductsPage(Base):
     add_to_cart_1 = 'new UiSelector().resourceId("ru.ozon.app.android:id/firstButton").instance(0)'
     add_to_cart_2 = 'new UiSelector().description("ozonAddToCart")'
     cart = 'ru.ozon.app.android:id/menu_cart'
+    search_field = 'ru.ozon.app.android:id/searchTv'
+    back_arrow = 'ru.ozon.app.android:id/image'
+    clear_search_field = 'ru.ozon.app.android:id/ivClearSearch'
+    search_history_1 = 'new UiSelector().description("tagButton").instance(0)'
+    search_history_2 = 'new UiSelector().description("tagButton").instance(1)'
+    search_history_3 = 'new UiSelector().description("tagButton").instance(2)'
+    search_history_content_desc = 'ButtonV3.titleLabel'
+    cancel_search = 'ru.ozon.app.android:id/cancelButton'
+    clear_search_history = 'ru.ozon.app.android:id/clearBtnAtomView'
 
     # Getters
 
@@ -57,6 +66,34 @@ class ProductsPage(Base):
 
     def get_cart(self): return WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((AppiumBy.ID, self.cart)))
 
+    def get_search_field(self): return WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((AppiumBy.ID, self.search_field)))
+
+    def get_back_arrow(self): return WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((AppiumBy.ID, self.back_arrow)))
+
+    def get_clear_search(self): return WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((AppiumBy.ID, self.clear_search_field)))
+
+    def get_cancel_search(self): return WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((AppiumBy.ID, self.cancel_search)))
+
+    def get_search_history_1(self): return WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ANDROID_UIAUTOMATOR, self.search_history_1)))
+
+    def get_text_search_history_1(self):
+        history_name = self.get_search_history_1()
+        return history_name.find_element(AppiumBy.ACCESSIBILITY_ID, self.search_history_content_desc)
+
+    def get_search_history_2(self): return WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ANDROID_UIAUTOMATOR, self.search_history_2)))
+
+    def get_text_search_history_2(self):
+        history_name = self.get_search_history_2()
+        return history_name.find_element(AppiumBy.ACCESSIBILITY_ID, self.search_history_content_desc)
+
+    def get_search_history_3(self): return WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((AppiumBy.ANDROID_UIAUTOMATOR, self.search_history_3)))
+
+    def get_text_search_history_3(self):
+        history_name = self.get_search_history_3()
+        return history_name.find_element(AppiumBy.ACCESSIBILITY_ID, self.search_history_content_desc)
+
+    def get_clear_search_history(self): return WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((AppiumBy.ID, self.clear_search_history)))
+
     # Actions
 
     def click_get_filters(self):
@@ -72,6 +109,18 @@ class ProductsPage(Base):
         product_name = self.get_second_product_name().text
         print(f'Second product name on products page: {product_name}')
         return product_name
+
+    def get_name_search_history_1(self):
+        name = self.get_text_search_history_1().text
+        return name
+
+    def get_name_search_history_2(self):
+        name = self.get_text_search_history_2().text
+        return name
+
+    def get_name_search_history_3(self):
+        name = self.get_text_search_history_3().text
+        return name
 
     def click_favs(self):
         self.get_fav_1().click()
@@ -94,6 +143,26 @@ class ProductsPage(Base):
     def click_get_cart(self):
         self.get_cart().click()
         print('clicked CART')
+
+    def click_back_arrow(self):
+        self.get_back_arrow().click()
+        print('clicked BACK ARROW')
+
+    def click_search_field(self):
+        self.get_search_field().click()
+        print('clicked SEARCH FIELD')
+
+    def click_clear_search(self):
+        self.get_clear_search().click()
+        print('clicked CLEAR SEARCH')
+
+    def click_cancel_search(self):
+        self.get_cancel_search().click()
+        print('clicked CANCEL SEARCH')
+
+    def click_clear_search_history(self):
+        self.get_clear_search_history().click()
+        print('clicked CLEAR SEARCH HISTORY')
 
     # Methods
     def enter_filters(self):
@@ -119,4 +188,39 @@ class ProductsPage(Base):
         self.click_get_cart()
         Logger.add_end_step('add_to_cart_and_enter')
 
+    def check_search_by_name(self):
+        Logger.add_start_step('check_search_by_name')
+        product_1 = self.get_product_name_1()
+        product_2 = self.get_product_name_2()
+        if 'Nike' in product_1 and 'Nike' in product_2:
+            print('CORRECT SEARCH BY NAME')
+            self.get_screenshot_find_by_name()
+        else:
+            print('INCORRECT SEARCH BY NAME')
+            self.get_screenshot_find_by_name()
+            raise Exception
+        Logger.add_end_step('check_search_by_name')
 
+    def various_searches(self):
+        Logger.add_start_step(method='various_searches')
+        self.click_back_arrow()
+        self.click_clear_search()
+        self.set_name('iphone')
+        self.click_back_arrow()
+        self.click_clear_search()
+        self.set_name('nvidia')
+        self.click_back_arrow()
+        self.click_clear_search()
+        self.click_cancel_search()
+        self.click_search_field()  # нес-ко раз, т.к. последний введенный поиск не всегда сохраняется
+        self.click_cancel_search()
+        self.click_search_field()
+        time.sleep(3)
+        self.get_screenshot_search_history()
+        Logger.add_end_step(method='various_searches')
+
+    def compare_names(self, name_1, name_2):
+        Logger.add_start_step(method='compare_names')
+        assert name_1 == name_2
+        print(f'История поиска совпадает. Ожидается: {name_1}, имеем: {name_2}')
+        Logger.add_end_step(method='compare_names')

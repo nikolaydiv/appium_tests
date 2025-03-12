@@ -22,6 +22,7 @@ class CartPage(Base):
     name_locator = 'text'
     remove_product = 'new UiSelector().resourceId("ru.ozon.app.android:id/removeButton").instance(0)'
     confirm_remove = 'android:id/button1'
+    empty_cart = 'new UiSelector().resourceId("ru.ozon.app.android:id/emptyCartV2Title")'
 
     # Getters
 
@@ -61,6 +62,9 @@ class CartPage(Base):
         return WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((AppiumBy.ID, self.confirm_remove)))
 
+    def get_empty_cart(self): return WebDriverWait(self.driver, 10).until(
+        EC.presence_of_element_located((AppiumBy.ANDROID_UIAUTOMATOR, self.empty_cart)))
+
     # Actions
 
     def get_product_name_1(self):
@@ -81,6 +85,10 @@ class CartPage(Base):
         self.get_confirm_remove().click()
         print(f'clicked CONFIRM REMOVE')
 
+    def get_empty_cart_text(self):
+        empty_cart_text = self.get_empty_cart().text
+        return empty_cart_text
+
     # Methods
 
     def get_names(self):
@@ -94,7 +102,7 @@ class CartPage(Base):
     def compare_names(self, name_1, name_2):
         Logger.add_start_step(method='compare_names')
         assert name_1[:50] == name_2[:50]
-        print(f'Названия товаров совпадают. Ожидается: {name_1}, имеем: {name_2}')
+        print(f'Названия совпадают. Ожидается: {name_1}, имеем: {name_2}')
         Logger.add_end_step(method='compare_names')
 
     def clear_cart(self):

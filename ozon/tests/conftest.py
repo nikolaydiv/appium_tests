@@ -1,5 +1,4 @@
 import time
-
 import pytest
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
@@ -11,11 +10,12 @@ capabilities = dict(
     appPackage='ru.ozon.app.android',
     appActivity='ru.ozon.app.android.ui.start.AppHostActivity',
     newCommandTimeout=300,
-    fullReset=False,
-    noReset=True,
-    dontStopAppOnReset=True,
+    fastReset=True,
     skipDeviceInitialization=True
 )
+
+#    noReset=True,
+#     dontStopAppOnReset=True,
 
 appium_server_url = 'http://localhost:4723'
 

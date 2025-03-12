@@ -6,7 +6,7 @@ import unittest
 import datetime
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
-from seekers_notes.utilities import Logger
+from seekers_notes.utilities.logger import Logger
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 

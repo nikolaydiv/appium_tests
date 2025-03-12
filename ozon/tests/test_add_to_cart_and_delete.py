@@ -31,4 +31,9 @@ def test_add_to_cart_and_delete(appium_driver):
     cp.compare_names(product_name_pp_2, product_name_cp_1)
     cp.clear_cart()
 
+    empty_cart_text = cp.get_empty_cart_text()
+    cp.compare_names(empty_cart_text, 'Корзина пуста')
+
+    # добавить обновление страницы (не надо, после удаления товаров норм сразу становится) и сравнение текста "Корзина пуста"
+
     print('FINISH TEST ADD TO CART AND DELETE')

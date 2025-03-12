@@ -1,6 +1,7 @@
 import time
 
 from appium.webdriver.common.appiumby import AppiumBy
+from selenium.webdriver import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
@@ -73,3 +74,9 @@ class MainPage(Base):
         print('PRODUCT IS CORRECT')
         self.get_screenshot_find_by_article()
         Logger.add_end_step(method='find_by_article')
+
+    def find_by_name(self):
+        Logger.add_start_step('find_by_name')
+        self.click_search_field()
+        self.set_name('nike')
+        Logger.add_end_step('find_by_name')

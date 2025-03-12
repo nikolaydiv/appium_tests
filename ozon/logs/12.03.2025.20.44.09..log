@@ -1,18 +1,18 @@
 
 -----
 Test: test_find_by_article.py::test_find_by_article (call)
-Start time: 2025-03-11 16:33:30.074031
+Start time: 2025-03-12 20:44:15.597847
 Start name method: enter_app
-End time: 2025-03-11 16:33:40.652610
+End time: 2025-03-12 20:44:18.498178
 End name method: enter_app
 
 -----
 
 -----
 Test: test_find_by_article.py::test_find_by_article (call)
-Start time: 2025-03-11 16:33:40.652610
+Start time: 2025-03-12 20:44:18.498178
 Start name method: find_by_article
-End time: 2025-03-11 16:33:58.967452
+End time: 2025-03-12 20:44:42.346463
 End name method: find_by_article
 
 -----

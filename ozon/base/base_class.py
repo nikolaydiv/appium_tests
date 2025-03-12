@@ -1,5 +1,7 @@
 import datetime
 import os
+import time
+
 import cv2
 from appium import webdriver
 
@@ -45,6 +47,42 @@ class Base():
         self.driver.press_keycode(13)
         self.driver.press_keycode(66)
 
+    def set_name(self, name):
+        if name == 'nike':
+            self.driver.press_keycode(42)
+            self.driver.press_keycode(37)
+            self.driver.press_keycode(39)
+            self.driver.press_keycode(33)
+            self.driver.press_keycode(66)
+        elif name == 'iphone':
+            self.driver.press_keycode(37)
+            self.driver.press_keycode(44)
+            self.driver.press_keycode(36)
+            self.driver.press_keycode(43)
+            self.driver.press_keycode(42)
+            self.driver.press_keycode(33)
+            self.driver.press_keycode(66)
+        elif name == 'nvidia':
+            self.driver.press_keycode(42)
+            self.driver.press_keycode(50)
+            self.driver.press_keycode(37)
+            self.driver.press_keycode(32)
+            self.driver.press_keycode(37)
+            self.driver.press_keycode(29)
+            self.driver.press_keycode(66)
+
+    def swipe_to_refresh(self):
+        self.driver.execute_script('mobile: scrollGesture', {
+            'left': 500,
+            'top': 1000,
+            'width': 100,
+            'height': 800,
+            'direction': 'up',
+            'percent': 1.0,
+            'speed': 3000
+        })
+        time.sleep(2)
+
     def delete_values(self):
         for _ in range(7):
             os.system("adb shell input keyevent KEYCODE_DEL")
@@ -74,6 +112,26 @@ class Base():
         name_screenshot = f'screenshot_{now_date}.png'
 
         screenshots_folder = os.path.join(os.path.dirname(__file__), '..', 'screenshots', 'find_by_article')
+
+        screenshot_path = os.path.join(screenshots_folder, name_screenshot)
+
+        self.driver.save_screenshot(screenshot_path)
+
+    def get_screenshot_find_by_name(self):
+        now_date = datetime.datetime.now().strftime("%d.%m.%Y.%H.%M.%S")
+        name_screenshot = f'screenshot_{now_date}.png'
+
+        screenshots_folder = os.path.join(os.path.dirname(__file__), '..', 'screenshots', 'find_by_name')
+
+        screenshot_path = os.path.join(screenshots_folder, name_screenshot)
+
+        self.driver.save_screenshot(screenshot_path)
+
+    def get_screenshot_search_history(self):
+        now_date = datetime.datetime.now().strftime("%d.%m.%Y.%H.%M.%S")
+        name_screenshot = f'screenshot_{now_date}.png'
+
+        screenshots_folder = os.path.join(os.path.dirname(__file__), '..', 'screenshots', 'search_history')
 
         screenshot_path = os.path.join(screenshots_folder, name_screenshot)
 

@@ -1,0 +1,27 @@
+
+-----
+Test: test_find_by_name.py::test_find_by_name (call)
+Start time: 2025-03-12 20:45:11.419754
+Start name method: enter_app
+End time: 2025-03-12 20:45:22.423331
+End name method: enter_app
+
+-----
+
+-----
+Test: test_find_by_name.py::test_find_by_name (call)
+Start time: 2025-03-12 20:45:22.423331
+Start name method: find_by_name
+End time: 2025-03-12 20:45:30.109513
+End name method: find_by_name
+
+-----
+
+-----
+Test: test_find_by_name.py::test_find_by_name (call)
+Start time: 2025-03-12 20:45:30.109513
+Start name method: check_search_by_name
+End time: 2025-03-12 20:45:32.670939
+End name method: check_search_by_name
+
+-----
